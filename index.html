@@ -98,17 +98,30 @@ function App() {
     alert("Não foi possível gerar um sorteio válido.");
   }
 
+  function removerAcentos(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
   function revelar() {
-    const nomeFormatado = nomeAtual.trim();
-    if (!pares[nomeFormatado]) {
+    const nomeFormatado = removerAcentos(nomeAtual.trim().toLowerCase());
+
+    // Criar mapa normalizado
+    const paresNormalizados = {};
+    Object.entries(pares).forEach(([k, v]) => {
+      paresNormalizados[removerAcentos(k.toLowerCase())] = v;
+    });
+
+    if (!paresNormalizados[nomeFormatado]) {
       alert("Nome não encontrado ou sorteio não gerado.");
       return;
     }
+
     if (revelados[nomeFormatado]) {
       alert("Você já viu o resultado.");
       return;
     }
-    setSorteado(pares[nomeFormatado]);
+
+    setSorteado(paresNormalizados[nomeFormatado]);
     setRevelados(prev => ({ ...prev, [nomeFormatado]: true }));
   }
 
