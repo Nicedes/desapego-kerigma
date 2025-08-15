@@ -1,125 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Desapego Kerigma</title>
-<style>
-  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-  .container { max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desapego crisma kerigma</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div class="container">
-  <h1>Desapego Kerigma</h1>
-  <p id="mensagem"></p>
-</div>
-<script>
-const nomes = [
-  "Andressa Fernandes da Silva",
-  "Cris Alberto da Conceição de Lima",
-  "Deuzamir José Bezerra",
-  "Ellen Rodrigues de Freitas",
-  "Emily Vitória Dias Barbosa",
-  "Emily Vitória Tomaz de Pontes",
-  "Felipe Gomes Macena da Paixão",
-  "Gabrielli Rodrigues de Souza",
-  "Gerdeson Manoel de Almeida Oliveira",
-  "Hevellyn Christinny da Silva Costa",
-  "Iago Roberto Guedes da Silva",
-  "Igor Dias Gomes",
-  "Jessica da Conceição Barbosa",
-  "José Eduardo Soares da Silva Lima",
-  "José Manoel Venâncio de Pontes",
-  "Kauane Júlia Barbosa de Lima",
-  "Kaylane Querino dos Santos",
-  "Kayo Eduardo Santos de Sousa",
-  "Ketly Raphaella Soares Costa",
-  "Kevilly Maria",
-  "Kelton Mark Araújo Marinho",
-  "Leonildo Ferreira dos Santos",
-  "Letícia Araújo Linhares",
-  "Lívia Maria Firmino da Silva",
-  "Luiz Benícius Lucindo da Silva",
-  "Mª Clara Ataíde do Nascimento",
-  "Maria Clara dos Santos Carvalho",
-  "Maria Clara Oliveira de Lima",
-  "Maria Eduarda Soares da Silva Lima",
-  "Maria Heloíza Pereira da Silva",
-  "Mariana Maria de Souza Cândido",
-  "Marianni Cavalcanti da Silva",
-  "Miguel Araújo Linhares",
-  "Mikaelly Rodrigues da Silva",
-  "Rafaela Galdino dos Santos",
-  "Rafaella Vivian Bernardo dos Santos",
-  "Thairis Rodrigues de Oliveira",
-  "Thainara Rodrigues de Oliveira",
-  "Thais Regina Estevam De Araújo",
-  "Wemilly Vitória da Silva Reis"
-];
+<body class="bg-white text-gray-900">
+  <div id="root"></div>
 
-// Resultado fixo do sorteio
-const resultado = [
-  "Wemilly Vitória da Silva Reis",
-  "Mª Clara Ataíde do Nascimento",
-  "Felipe Gomes Macena da Paixão",
-  "Thairis Rodrigues de Oliveira",
-  "Deuzamir José Bezerra",
-  "Mariana Maria de Souza Cândido",
-  "Ketly Raphaella Soares Costa",
-  "Lívia Maria Firmino da Silva",
-  "Kaylane Querino dos Santos",
-  "Emily Vitória Tomaz de Pontes",
-  "Kelton Mark Araújo Marinho",
-  "Hevellyn Christinny da Silva Costa",
-  "Maria Clara dos Santos Carvalho",
-  "Rafaella Vivian Bernardo dos Santos",
-  "Thais Regina Estevam De Araújo",
-  "Leonildo Ferreira dos Santos",
-  "José Manoel Venâncio de Pontes",
-  "José Eduardo Soares da Silva Lima",
-  "Miguel Araújo Linhares",
-  "Luiz Benícius Lucindo da Silva",
-  "Kevilly Maria",
-  "Maria Eduarda Soares da Silva Lima",
-  "Igor Dias Gomes",
-  "Thainara Rodrigues de Oliveira",
-  "Kauane Júlia Barbosa de Lima",
-  "Jessica da Conceição Barbosa",
-  "Letícia Araújo Linhares",
-  "Ellen Rodrigues de Freitas",
-  "Gabrielli Rodrigues de Souza",
-  "Gerdeson Manoel de Almeida Oliveira",
-  "Marianni Cavalcanti da Silva",
-  "Andressa Fernandes da Silva",
-  "Rafaela Galdino dos Santos",
-  "Kayo Eduardo Santos de Sousa",
-  "Maria Clara Oliveira de Lima",
-  "Mikaelly Rodrigues da Silva",
-  "Maria Heloíza Pereira da Silva",
-  "Iago Roberto Guedes da Silva",
-  "Cris Alberto da Conceição de Lima",
-  "Emily Vitória Dias Barbosa"
-];
+  <script type="text/babel">
 
-// Gerar links únicos
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+function App() {
+  const [pares, setPares] = React.useState({});
+  const [revelados, setRevelados] = React.useState({});
+  const [nomeAtual, setNomeAtual] = React.useState("");
+  const [sorteado, setSorteado] = React.useState(null);
 
-if (id === null) {
-  let links = "<h2>Links para enviar:</h2><ul>";
-  nomes.forEach((nome, i) => {
-    links += `<li>${nome}: <a href='?id=${i}'>Abrir link</a></li>`;
-  });
-  links += "</ul>";
-  document.getElementById("mensagem").innerHTML = links;
-} else {
-  const indice = parseInt(id);
-  if (indice >= 0 && indice < nomes.length) {
-    document.getElementById("mensagem").innerHTML = `<strong>Você tirou:</strong><br>${resultado[indice]}`;
-  } else {
-    document.getElementById("mensagem").textContent = "ID inválido.";
+  const nomes = [
+    "Andressa Fernandes da Silva",
+    "Cris Alberto da Conceição de Lima",
+    "Deuzamir José Bezerra",
+    "Ellen Rodrigues de Freitas",
+    "Emily Vitória Dias Barbosa",
+    "Emily Vitória Tomaz de Pontes",
+    "Felipe Gomes Macena da Paixão",
+    "Gabrielli Rodrigues de Souza",
+    "Gerdeson Manoel de Almeida Oliveira",
+    "Hevellyn Christinny da Silva Costa",
+    "Iago Roberto Guedes da Silva",
+    "Igor Dias Gomes",
+    "Jessica da Conceição Barbosa",
+    "José Eduardo Soares da Silva Lima",
+    "José Manoel Venâncio de Pontes",
+    "Kauane Júlia Barbosa de Lima",
+    "Kaylane Querino dos Santos",
+    "Kayo Eduardo Santos de Sousa",
+    "Ketly Raphaella Soares Costa",
+    "Kevilly Maria",
+    "Kelton Mark Araújo Marinho",
+    "Leonildo Ferreira dos Santos",
+    "Letícia Araújo Linhares",
+    "Lívia Maria Firmino da Silva",
+    "Luiz Benícius Lucindo da Silva",
+    "Mª Clara Ataíde do Nascimento",
+    "Maria Clara dos Santos Carvalho",
+    "Maria Clara Oliveira de Lima",
+    "Maria Eduarda Soares da Silva Lima",
+    "Maria Heloíza Pereira da Silva",
+    "Mariana Maria de Souza Cândido",
+    "Marianni Cavalcanti da Silva",
+    "Miguel Araújo Linhares",
+    "Mikaelly Rodrigues da Silva",
+    "Rafaela Galdino dos Santos",
+    "Rafaella Vivian Bernardo dos Santos",
+    "Thairis Rodrigues de Oliveira",
+    "Thainara Rodrigues de Oliveira",
+    "Thais Regina Estevam De Araújo",
+    "Wemilly Vitória da Silva Reis"
+  ];
+
+  function embaralhar(lista) {
+    const a = [...lista];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
+
+  function gerarSorteio() {
+    let tentativas = 0;
+    while (tentativas < 5000) {
+      const embaralhado = embaralhar(nomes);
+      let valido = true;
+      for (let i = 0; i < nomes.length; i++) {
+        if (nomes[i] === embaralhado[i]) {
+          valido = false;
+          break;
+        }
+      }
+      if (valido) {
+        const mapa = {};
+        nomes.forEach((n, i) => mapa[n] = embaralhado[i]);
+        setPares(mapa);
+        setRevelados({});
+        setSorteado(null);
+        alert("Sorteio gerado!");
+        return;
+      }
+      tentativas++;
+    }
+    alert("Não foi possível gerar um sorteio válido.");
+  }
+
+  function revelar() {
+    if (!pares[nomeAtual]) {
+      alert("Nome não encontrado ou sorteio não gerado.");
+      return;
+    }
+    if (revelados[nomeAtual]) {
+      alert("Este participante já viu o sorteado.");
+      return;
+    }
+    setSorteado(pares[nomeAtual]);
+    setRevelados(prev => ({ ...prev, [nomeAtual]: true }));
+    setTimeout(() => setSorteado(null), 8000);
+  }
+
+  return (
+    <div className="max-w-md mx-auto p-4 space-y-4">
+      <h1 className="text-2xl font-bold text-center">Amigo Oculto</h1>
+
+      <button onClick={gerarSorteio} className="w-full bg-blue-500 text-white py-2 rounded">
+        Gerar / Refazer sorteio
+      </button>
+
+      <div className="space-y-2">
+        <input
+          type="text"
+          placeholder="Digite seu nome"
+          value={nomeAtual}
+          onChange={e => setNomeAtual(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
+        <button onClick={revelar} className="w-full bg-green-500 text-white py-2 rounded">
+          Revelar
+        </button>
+      </div>
+
+      {sorteado && (
+        <div className="bg-green-100 p-4 rounded text-center text-lg font-semibold">
+          Você tirou: {sorteado}
+        </div>
+      )}
+    </div>
+  );
 }
-</script>
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+  </script>
 </body>
 </html>
