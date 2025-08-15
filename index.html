@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Desapego crisma kerigma</title>
+  <title>Desapego Crisma Kerigma</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -13,12 +13,12 @@
   <div id="root"></div>
 
   <script type="text/babel">
-
 function App() {
   const [pares, setPares] = React.useState({});
   const [revelados, setRevelados] = React.useState({});
   const [nomeAtual, setNomeAtual] = React.useState("");
   const [sorteado, setSorteado] = React.useState(null);
+  const [sorteioPronto, setSorteioPronto] = React.useState(false);
 
   const nomes = [
     "Andressa Fernandes da Silva",
@@ -89,7 +89,8 @@ function App() {
         setPares(mapa);
         setRevelados({});
         setSorteado(null);
-        alert("Sorteio gerado!");
+        setSorteioPronto(true);
+        alert("Sorteio gerado com sucesso!");
         return;
       }
       tentativas++;
@@ -98,36 +99,48 @@ function App() {
   }
 
   function revelar() {
-    if (!pares[nomeAtual]) {
+    const nomeFormatado = nomeAtual.trim();
+    if (!pares[nomeFormatado]) {
       alert("Nome não encontrado ou sorteio não gerado.");
       return;
     }
-    if (revelados[nomeAtual]) {
-      alert("Este participante já viu o sorteado.");
+    if (revelados[nomeFormatado]) {
+      alert("Você já viu o resultado.");
       return;
     }
-    setSorteado(pares[nomeAtual]);
-    setRevelados(prev => ({ ...prev, [nomeAtual]: true }));
-    setTimeout(() => setSorteado(null), 8000);
+    setSorteado(pares[nomeFormatado]);
+    setRevelados(prev => ({ ...prev, [nomeFormatado]: true }));
   }
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
       <h1 className="text-2xl font-bold text-center">Amigo Oculto</h1>
 
-      <button onClick={gerarSorteio} className="w-full bg-blue-500 text-white py-2 rounded">
+      <button 
+        onClick={gerarSorteio} 
+        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+      >
         Gerar / Refazer sorteio
       </button>
+
+      {sorteioPronto && (
+        <div className="bg-yellow-100 p-2 rounded text-center">
+          Sorteio pronto! Digite seu nome para revelar.
+        </div>
+      )}
 
       <div className="space-y-2">
         <input
           type="text"
-          placeholder="Digite seu nome"
+          placeholder="Digite seu nome completo"
           value={nomeAtual}
           onChange={e => setNomeAtual(e.target.value)}
           className="w-full border p-2 rounded"
         />
-        <button onClick={revelar} className="w-full bg-green-500 text-white py-2 rounded">
+        <button 
+          onClick={revelar} 
+          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
+        >
           Revelar
         </button>
       </div>
@@ -135,6 +148,12 @@ function App() {
       {sorteado && (
         <div className="bg-green-100 p-4 rounded text-center text-lg font-semibold">
           Você tirou: {sorteado}
+          <button 
+            onClick={() => setSorteado(null)} 
+            className="block mt-2 text-sm text-red-500 hover:underline"
+          >
+            Esconder
+          </button>
         </div>
       )}
     </div>
@@ -142,7 +161,6 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-
   </script>
 </body>
 </html>
