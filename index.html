@@ -15,10 +15,8 @@
   <script type="text/babel">
 function App() {
   const [pares, setPares] = React.useState({});
-  const [revelados, setRevelados] = React.useState({});
   const [nomeAtual, setNomeAtual] = React.useState("");
   const [sorteado, setSorteado] = React.useState(null);
-  const [sorteioPronto, setSorteioPronto] = React.useState(false);
 
   const nomes = [
     "Andressa Fernandes da Silva",
@@ -86,17 +84,23 @@ function App() {
       if (valido) {
         const mapa = {};
         nomes.forEach((n, i) => mapa[n] = embaralhado[i]);
-        setPares(mapa);
-        setRevelados({});
-        setSorteado(null);
-        setSorteioPronto(true);
-        alert("Sorteio gerado com sucesso!");
-        return;
+        localStorage.setItem('pares', JSON.stringify(mapa)); // salva no localStorage
+        return mapa;
       }
       tentativas++;
     }
     alert("Não foi possível gerar um sorteio válido.");
+    return {};
   }
+
+  React.useEffect(() => {
+    const stored = localStorage.getItem('pares');
+    if (stored) {
+      setPares(JSON.parse(stored));
+    } else {
+      setPares(gerarSorteio());
+    }
+  }, []);
 
   function removerAcentos(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -104,8 +108,6 @@ function App() {
 
   function revelar() {
     const nomeFormatado = removerAcentos(nomeAtual.trim().toLowerCase());
-
-    // cria mapa normalizado
     const paresNormalizados = {};
     Object.entries(pares).forEach(([k, v]) => {
       paresNormalizados[removerAcentos(k.toLowerCase())] = v;
@@ -116,35 +118,12 @@ function App() {
       return;
     }
 
-    // se já tiver revelado, mostra o resultado armazenado
-    if (revelados[nomeFormatado]) {
-      setSorteado(revelados[nomeFormatado]);
-      return;
-    }
-
-    const sorteadoAtual = paresNormalizados[nomeFormatado];
-    setSorteado(sorteadoAtual);
-
-    // armazena o resultado para futuras consultas
-    setRevelados(prev => ({ ...prev, [nomeFormatado]: sorteadoAtual }));
+    setSorteado(paresNormalizados[nomeFormatado]);
   }
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
       <h1 className="text-2xl font-bold text-center">Desapego Crisma Kerigma</h1>
-
-      <button 
-        onClick={gerarSorteio} 
-        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
-      >
-        Gerar / Refazer sorteio
-      </button>
-
-      {sorteioPronto && (
-        <div className="bg-yellow-100 p-2 rounded text-center">
-          Sorteio pronto! Digite seu nome para revelar.
-        </div>
-      )}
 
       <div className="space-y-2">
         <input
@@ -160,6 +139,14 @@ function App() {
         >
           Revelar
         </button>
+        <a
+          href="https://www.instagram.com/nicedessilva"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full block text-center bg-pink-500 text-white py-2 rounded hover:bg-pink-600 transition"
+        >
+          Me seguir no Instagram
+        </a>
       </div>
 
       {sorteado && (
