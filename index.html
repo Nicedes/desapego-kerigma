@@ -105,7 +105,7 @@ function App() {
   function revelar() {
     const nomeFormatado = removerAcentos(nomeAtual.trim().toLowerCase());
 
-    // Criar mapa normalizado
+    // cria mapa normalizado
     const paresNormalizados = {};
     Object.entries(pares).forEach(([k, v]) => {
       paresNormalizados[removerAcentos(k.toLowerCase())] = v;
