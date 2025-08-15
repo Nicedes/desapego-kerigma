@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Desapego Kerigma</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+  .container { max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Desapego Kerigma</h1>
+  <p id="mensagem"></p>
+</div>
+<script>
+const nomes = [
+  "Andressa Fernandes da Silva",
+  "Cris Alberto da Conceição de Lima",
+  "Deuzamir José Bezerra",
+  "Ellen Rodrigues de Freitas",
+  "Emily Vitória Dias Barbosa",
+  "Emily Vitória Tomaz de Pontes",
+  "Felipe Gomes Macena da Paixão",
+  "Gabrielli Rodrigues de Souza",
+  "Gerdeson Manoel de Almeida Oliveira",
+  "Hevellyn Christinny da Silva Costa",
+  "Iago Roberto Guedes da Silva",
+  "Igor Dias Gomes",
+  "Jessica da Conceição Barbosa",
+  "José Eduardo Soares da Silva Lima",
+  "José Manoel Venâncio de Pontes",
+  "Kauane Júlia Barbosa de Lima",
+  "Kaylane Querino dos Santos",
+  "Kayo Eduardo Santos de Sousa",
+  "Ketly Raphaella Soares Costa",
+  "Kevilly Maria",
+  "Kelton Mark Araújo Marinho",
+  "Leonildo Ferreira dos Santos",
+  "Letícia Araújo Linhares",
+  "Lívia Maria Firmino da Silva",
+  "Luiz Benícius Lucindo da Silva",
+  "Mª Clara Ataíde do Nascimento",
+  "Maria Clara dos Santos Carvalho",
+  "Maria Clara Oliveira de Lima",
+  "Maria Eduarda Soares da Silva Lima",
+  "Maria Heloíza Pereira da Silva",
+  "Mariana Maria de Souza Cândido",
+  "Marianni Cavalcanti da Silva",
+  "Miguel Araújo Linhares",
+  "Mikaelly Rodrigues da Silva",
+  "Rafaela Galdino dos Santos",
+  "Rafaella Vivian Bernardo dos Santos",
+  "Thairis Rodrigues de Oliveira",
+  "Thainara Rodrigues de Oliveira",
+  "Thais Regina Estevam De Araújo",
+  "Wemilly Vitória da Silva Reis"
+];
+
+// Resultado fixo do sorteio
+const resultado = [
+  "Wemilly Vitória da Silva Reis",
+  "Mª Clara Ataíde do Nascimento",
+  "Felipe Gomes Macena da Paixão",
+  "Thairis Rodrigues de Oliveira",
+  "Deuzamir José Bezerra",
+  "Mariana Maria de Souza Cândido",
+  "Ketly Raphaella Soares Costa",
+  "Lívia Maria Firmino da Silva",
+  "Kaylane Querino dos Santos",
+  "Emily Vitória Tomaz de Pontes",
+  "Kelton Mark Araújo Marinho",
+  "Hevellyn Christinny da Silva Costa",
+  "Maria Clara dos Santos Carvalho",
+  "Rafaella Vivian Bernardo dos Santos",
+  "Thais Regina Estevam De Araújo",
+  "Leonildo Ferreira dos Santos",
+  "José Manoel Venâncio de Pontes",
+  "José Eduardo Soares da Silva Lima",
+  "Miguel Araújo Linhares",
+  "Luiz Benícius Lucindo da Silva",
+  "Kevilly Maria",
+  "Maria Eduarda Soares da Silva Lima",
+  "Igor Dias Gomes",
+  "Thainara Rodrigues de Oliveira",
+  "Kauane Júlia Barbosa de Lima",
+  "Jessica da Conceição Barbosa",
+  "Letícia Araújo Linhares",
+  "Ellen Rodrigues de Freitas",
+  "Gabrielli Rodrigues de Souza",
+  "Gerdeson Manoel de Almeida Oliveira",
+  "Marianni Cavalcanti da Silva",
+  "Andressa Fernandes da Silva",
+  "Rafaela Galdino dos Santos",
+  "Kayo Eduardo Santos de Sousa",
+  "Maria Clara Oliveira de Lima",
+  "Mikaelly Rodrigues da Silva",
+  "Maria Heloíza Pereira da Silva",
+  "Iago Roberto Guedes da Silva",
+  "Cris Alberto da Conceição de Lima",
+  "Emily Vitória Dias Barbosa"
+];
+
+// Gerar links únicos
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+if (id === null) {
+  let links = "<h2>Links para enviar:</h2><ul>";
+  nomes.forEach((nome, i) => {
+    links += `<li>${nome}: <a href='?id=${i}'>Abrir link</a></li>`;
+  });
+  links += "</ul>";
+  document.getElementById("mensagem").innerHTML = links;
+} else {
+  const indice = parseInt(id);
+  if (indice >= 0 && indice < nomes.length) {
+    document.getElementById("mensagem").innerHTML = `<strong>Você tirou:</strong><br>${resultado[indice]}`;
+  } else {
+    document.getElementById("mensagem").textContent = "ID inválido.";
+  }
+}
+</script>
+</body>
+</html>
