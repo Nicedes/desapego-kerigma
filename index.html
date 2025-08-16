@@ -1,170 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Desapego Crisma Kerigma</title>
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: url('https://i.imgur.com/nm1lK2Q.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    .box {
+      margin-top: 15%;
+      background: rgba(0,0,0,0.6);
+      padding: 25px;
+      border-radius: 15px;
+      display: inline-block;
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 220px;
+      text-align: center;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #ffcc00;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    #resultado {
+      margin-top: 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body class="bg-white text-gray-900">
-  <div id="root"></div>
+<body>
+  <div class="box">
+    <h1>Desapego Crisma Kerigma</h1>
+    <p>Digite seu nome para revelar quem você tirou:</p>
+    <input type="text" id="nome" placeholder="Seu nome" onblur="sortear()">
+    <p id="resultado"></p>
+    <br>
+    <a href="https://instagram.com/nicedessilva" target="_blank">
+      <button>👉 Me seguir no Instagram</button>
+    </a>
+  </div>
 
-  <script type="text/babel">
-function App() {
-  const [pares, setPares] = React.useState({});
-  const [nomeAtual, setNomeAtual] = React.useState("");
-  const [sorteado, setSorteado] = React.useState(null);
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3" type="audio/mpeg">
+  </audio>
 
-  const nomes = [
-    "Andressa Fernandes da Silva",
-    "Cris Alberto da Conceição de Lima",
-    "Deuzamir José Bezerra",
-    "Ellen Rodrigues de Freitas",
-    "Emily Vitória Dias Barbosa",
-    "Emily Vitória Tomaz de Pontes",
-    "Felipe Gomes Macena da Paixão",
-    "Gabrielli Rodrigues de Souza",
-    "Gerdeson Manoel de Almeida Oliveira",
-    "Hevellyn Christinny da Silva Costa",
-    "Iago Roberto Guedes da Silva",
-    "Igor Dias Gomes",
-    "Jessica da Conceição Barbosa",
-    "José Eduardo Soares da Silva Lima",
-    "José Manoel Venâncio de Pontes",
-    "Kauane Júlia Barbosa de Lima",
-    "Kaylane Querino dos Santos",
-    "Kayo Eduardo Santos de Sousa",
-    "Ketly Raphaella Soares Costa",
-    "Kevilly Maria",
-    "Kelton Mark Araújo Marinho",
-    "Leonildo Ferreira dos Santos",
-    "Letícia Araújo Linhares",
-    "Lívia Maria Firmino da Silva",
-    "Luiz Benícius Lucindo da Silva",
-    "Mª Clara Ataíde do Nascimento",
-    "Maria Clara dos Santos Carvalho",
-    "Maria Clara Oliveira de Lima",
-    "Maria Eduarda Soares da Silva Lima",
-    "Maria Heloíza Pereira da Silva",
-    "Mariana Maria de Souza Cândido",
-    "Marianni Cavalcanti da Silva",
-    "Miguel Araújo Linhares",
-    "Mikaelly Rodrigues da Silva",
-    "Rafaela Galdino dos Santos",
-    "Rafaella Vivian Bernardo dos Santos",
-    "Thairis Rodrigues de Oliveira",
-    "Thainara Rodrigues de Oliveira",
-    "Thais Regina Estevam De Araújo",
-    "Wemilly Vitória da Silva Reis"
-  ];
+  <script>
+    // COLE AQUI A URL DO SEU GOOGLE APPS SCRIPT
+    const API_URL = "COLE_AQUI_A_URL_DO_SCRIPT";
 
-  function embaralhar(lista) {
-    const a = [...lista];
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
+    async function sortear() {
+      let participante = document.getElementById("nome").value.trim();
+      if (participante === "") return;
 
-  function gerarSorteio() {
-    let tentativas = 0;
-    while (tentativas < 5000) {
-      const embaralhado = embaralhar(nomes);
-      let valido = true;
-      for (let i = 0; i < nomes.length; i++) {
-        if (nomes[i] === embaralhado[i]) {
-          valido = false;
-          break;
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify({ participante: participante })
+        });
+
+        const data = await response.json();
+
+        if (data.status === "ok") {
+          document.getElementById("resultado").innerText = "Você tirou: " + data.sorteado;
+        } else {
+          document.getElementById("resultado").innerText = data.msg;
         }
+
+      } catch (error) {
+        document.getElementById("resultado").innerText = "Erro na conexão!";
+        console.error(error);
       }
-      if (valido) {
-        const mapa = {};
-        nomes.forEach((n, i) => mapa[n] = embaralhado[i]);
-        localStorage.setItem('pares', JSON.stringify(mapa)); // salva no localStorage
-        return mapa;
-      }
-      tentativas++;
     }
-    alert("Não foi possível gerar um sorteio válido.");
-    return {};
-  }
-
-  React.useEffect(() => {
-    const stored = localStorage.getItem('pares');
-    if (stored) {
-      setPares(JSON.parse(stored));
-    } else {
-      setPares(gerarSorteio());
-    }
-  }, []);
-
-  function removerAcentos(str) {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  }
-
-  function revelar() {
-    const nomeFormatado = removerAcentos(nomeAtual.trim().toLowerCase());
-    const paresNormalizados = {};
-    Object.entries(pares).forEach(([k, v]) => {
-      paresNormalizados[removerAcentos(k.toLowerCase())] = v;
-    });
-
-    if (!paresNormalizados[nomeFormatado]) {
-      alert("Nome não encontrado ou sorteio não gerado.");
-      return;
-    }
-
-    setSorteado(paresNormalizados[nomeFormatado]);
-  }
-
-  return (
-    <div className="max-w-md mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-center">Desapego Crisma Kerigma</h1>
-
-      <div className="space-y-2">
-        <input
-          type="text"
-          placeholder="Digite seu nome completo"
-          value={nomeAtual}
-          onChange={e => setNomeAtual(e.target.value)}
-          className="w-full border p-2 rounded"
-        />
-        <button 
-          onClick={revelar} 
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
-        >
-          Revelar
-        </button>
-        <a
-          href="https://www.instagram.com/nicedessilva"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full block text-center bg-pink-500 text-white py-2 rounded hover:bg-pink-600 transition"
-        >
-          Me seguir no Instagram
-        </a>
-      </div>
-
-      {sorteado && (
-        <div className="bg-green-100 p-4 rounded text-center text-lg font-semibold">
-          Você tirou: {sorteado}
-          <button 
-            onClick={() => setSorteado(null)} 
-            className="block mt-2 text-sm text-red-500 hover:underline"
-          >
-            Esconder
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
+
+
+
